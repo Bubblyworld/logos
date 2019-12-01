@@ -1,6 +1,14 @@
 package propositional
 
-import "github.com/bubblyworld/logos/ops"
+import (
+	"sort"
+
+	"github.com/bubblyworld/logos/ops"
+)
+
+// TODO(guy): It's bad design to be extremely aggressive about panic()
+// on malformed input while not providing a mechanism to produce correctly
+// formed input (other than parsing, but that's bad programatically).
 
 type FormulaType int
 
@@ -33,6 +41,30 @@ var arities = map[FormulaType]int{
 
 func (f Formula) Arity() int {
 	return arities[f.Type]
+}
+
+// ListIdentifiers returns the list of unique atomic formula identifiers
+// contained in the given formula. The result is guaranteed to be sorted
+// lexicographically.
+func (f Formula) ListIdentifiers() []string {
+	if f.Arity() == 0 {
+		return []string{f.Identifier}
+	}
+
+	idm := make(map[string]bool)
+	for i := 0; i < f.Arity(); i++ {
+		for _, id := range f.Subformulae[i].ListIdentifiers() {
+			idm[id] = true
+		}
+	}
+
+	var idl []string
+	for id := range idm {
+		idl = append(idl, id)
+	}
+
+	sort.Strings(idl)
+	return idl
 }
 
 func (f Formula) String() string {

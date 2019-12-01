@@ -27,7 +27,11 @@ func run() error {
 		return err
 	}
 
-	color.Info.Printf("parser result: %s", f)
+	color.Info.Printf("parser result: %s\n", f)
+	color.Info.Printf("identifiers: %v\n", f.ListIdentifiers())
+	color.Info.Printf("truthtable: %v\n", propositional.GetTruthTable(
+		f, f.ListIdentifiers()))
+
 	color.Println("")
 	return nil
 }
