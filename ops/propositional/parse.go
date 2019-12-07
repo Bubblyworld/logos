@@ -22,39 +22,33 @@ func convert(f *internal.Formula) Formula {
 	}
 
 	if f.Negation != nil {
-		return Formula{
-			Type: Negation,
-			Subformulae: []Formula{
-				convert(f.Negation.Formula),
-			},
-		}
+		return not(convert(f.Negation.Formula))
 	}
 
 	if f.Connective != nil {
-		return Formula{
-			Type: getType(f.Connective.Connective),
-			Subformulae: []Formula{
-				convert(f.Connective.LFormula),
-				convert(f.Connective.RFormula),
-			},
-		}
+		fn := getConstructor(f.Connective.Connective)
+
+		return fn(
+			convert(f.Connective.LFormula),
+			convert(f.Connective.RFormula),
+		)
 	}
 
 	// Sanity check - this should never happen.
 	panic("malformed formula returned by propositional parse")
 }
 
-func getType(c *internal.Connective) FormulaType {
+func getConstructor(c *internal.Connective) func(Formula, Formula) Formula {
 	if c.Conjunction != nil {
-		return Conjunction
+		return and
 	}
 
 	if c.Disjunction != nil {
-		return Disjunction
+		return or
 	}
 
 	if c.Implication != nil {
-		return Implication
+		return implies
 	}
 
 	// Sanity check - should never happen.

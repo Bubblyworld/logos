@@ -22,15 +22,20 @@ func run() error {
 		return err
 	}
 
-	f, err := propositional.Parse("(D | (A ->       !   (A^B)))")
+	f, err := propositional.Parse("(((A ^ B) | (C ^ D)) | E)")
 	if err != nil {
 		return err
 	}
 
 	color.Info.Printf("parser result: %s\n", f)
 	color.Info.Printf("identifiers: %v\n", f.ListIdentifiers())
-	color.Info.Printf("truthtable: %v\n", propositional.GetTruthTable(
+	color.Info.Printf("truth table: %v\n", propositional.GetTruthTable(
 		f, f.ListIdentifiers()))
+
+	nf := propositional.GetConjunctiveNormalForm(f)
+	color.Info.Printf("\nnormal form: %s\n", nf)
+	color.Info.Printf("truth table: %v\n", propositional.GetTruthTable(
+		nf, nf.ListIdentifiers()))
 
 	color.Println("")
 	return nil

@@ -93,6 +93,42 @@ func (f Formula) String() string {
 		" " + f.Subformulae[1].String() + ")"
 }
 
+func (f Formula) fst() Formula {
+	return f.Subformulae[0]
+}
+
+func (f Formula) snd() Formula {
+	return f.Subformulae[1]
+}
+
+func not(f Formula) Formula {
+	return Formula{
+		Type:        Negation,
+		Subformulae: []Formula{f},
+	}
+}
+
+func and(f, g Formula) Formula {
+	return Formula{
+		Type:        Conjunction,
+		Subformulae: []Formula{f, g},
+	}
+}
+
+func or(f, g Formula) Formula {
+	return Formula{
+		Type:        Disjunction,
+		Subformulae: []Formula{f, g},
+	}
+}
+
+func implies(f, g Formula) Formula {
+	return Formula{
+		Type:        Implication,
+		Subformulae: []Formula{f, g},
+	}
+}
+
 // Value represents a truth value assigned to an atomic propositonal formula
 // in the standard semantics.
 type Value byte
