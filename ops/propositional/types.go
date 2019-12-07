@@ -92,3 +92,36 @@ func (f Formula) String() string {
 	return "(" + f.Subformulae[0].String() + " " + c +
 		" " + f.Subformulae[1].String() + ")"
 }
+
+// Value represents a truth value assigned to an atomic propositonal formula
+// in the standard semantics.
+type Value byte
+type ValueList string
+
+const True Value = '1'
+const False Value = '0'
+
+func ToValue(b bool) Value {
+	if b {
+		return True
+	}
+
+	return False
+}
+
+func ToBool(v Value) bool {
+	return v == True
+}
+
+// Model represents a model in the standard semantics for propositional logic,
+// i.e a  mapping of the identifiers in a formula to true/false values.
+type Model ValueList
+
+func ToModel(values []Value) Model {
+	valuesb := make([]byte, len(values))
+	for i, v := range values {
+		valuesb[i] = byte(v)
+	}
+
+	return Model(ValueList(valuesb))
+}

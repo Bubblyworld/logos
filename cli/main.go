@@ -22,7 +22,7 @@ func run() error {
 		return err
 	}
 
-	f, err := propositional.Parse("(A →       ¬   (A ∧ B))")
+	f, err := propositional.Parse("(D | (A ->       !   (A^B)))")
 	if err != nil {
 		return err
 	}

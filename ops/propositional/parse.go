@@ -42,7 +42,6 @@ func convert(f *internal.Formula) Formula {
 
 	// Sanity check - this should never happen.
 	panic("malformed formula returned by propositional parse")
-	return Formula{}
 }
 
 func getType(c *internal.Connective) FormulaType {
@@ -59,6 +58,5 @@ func getType(c *internal.Connective) FormulaType {
 	}
 
 	// Sanity check - should never happen.
-	panic("malformed connective returned propositional parser")
-	return 0
+	panic("malformed connective returned by propositional parser")
 }

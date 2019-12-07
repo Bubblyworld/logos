@@ -8,10 +8,10 @@ import (
 )
 
 var lex = lexer.Must(ebnf.New(`
-    Conjunction = "` + ops.PROP_CONJ + `" .
-    Disjunction = "` + ops.PROP_DISJ + `" .
-    Implication = "` + ops.PROP_IMPL + `" .
-    Not         = "` + ops.PROP_NOT + `" .
+    Conjunction = "` + ops.PROP_CONJ + `" | "^" | "/\\" | "&" .
+    Disjunction = "` + ops.PROP_DISJ + `" | "\\/" | "|" .
+    Implication = "` + ops.PROP_IMPL + `" | "->" .
+    Not         = "` + ops.PROP_NOT + `" | "!" .
     LBracket    = "(" .
     RBracket    = ")" .
     Whitespace  = " " | "\t" | "\n" | "\r" .
